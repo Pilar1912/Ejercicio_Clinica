@@ -4,17 +4,21 @@ public class ObjClinica {
     private int Edad;
     private String Servicio;
     private int Estado;
+    private int Turno;
+    private int CondicionAt;
 
     public ObjClinica(){
 
     }
 
-    public ObjClinica(int id, String nombre, int edad, String servicio, int estado) {
+    public ObjClinica(int id, String nombre, int edad, String servicio, int estado, int turno, int condicionAt) {
         Id = id;
         Nombre = nombre;
         Edad = edad;
         Servicio = servicio;
         Estado = estado;
+        Turno = turno;
+        CondicionAt = condicionAt;
     }
 
     public int getId() {
@@ -57,6 +61,20 @@ public class ObjClinica {
         Estado = estado;
     }
 
-    
+    public int getTurno() {
+        return Turno;
+    }
+
+    public void setTurno(int turno) {
+        Turno = turno;
+    }
+
+    public int getCondicionAt() {
+        return CondicionAt;
+    }
+
+    public void setCondicionAt(int condicionAt) {
+        CondicionAt = condicionAt;
+    }
     
 }
