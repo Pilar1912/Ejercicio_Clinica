@@ -31,7 +31,8 @@ public class Menu {
             System.out.println("6. Mostrar pacientes con atención preferencial");
             System.out.println("7. Mostrar pacientes atendidos");
             System.out.println("8. Mostrar pacientes cancelados");
-            System.out.println("9. Salir");
+            System.out.println("9. Mostrar historial de actividades");
+            System.out.println("10. Salir");
             System.out.print("Ingrese una opción: ");
             
             opcion = sc.nextInt();
@@ -62,12 +63,15 @@ public class Menu {
                     m.MostrarPacientes(cola, 2, m);
                     break;
                 case 9:
+                    m.MostrarHistorial();
+                    break;
+                case 10:
                     System.out.println("Saliendo del programa...");
                     break;
                 default:
-                    System.out.println("Opción inválida. Por favor, ingrese un número del 1 al 9.");
+                    System.out.println("Opción inválida. Por favor, ingrese un número del 1 al 10.");
             }
-        } while (opcion != 9);
+        } while (opcion != 10);
 
         sc.close();
     }

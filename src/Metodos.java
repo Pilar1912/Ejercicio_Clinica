@@ -2,10 +2,13 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.ArrayList;
 
 public class Metodos {
 
     private int contadorTurno = 0;
+
+    private ArrayList<String> historial = new ArrayList<>();
     
     public ObjClinica[] Pacientes() {
         ObjClinica[] pacientes = new ObjClinica[5];
@@ -46,6 +49,9 @@ public class Metodos {
                 "\nID: " + o.getId() +
                 "\nA nombre del usuario: " + o.getNombre());
                 o.setEstado(2);
+                historial.add("Paciente atendido - ID: " + o.getId() +
+              ", Nombre: " + o.getNombre() +
+              ", Turno: " + o.getTurno());
                 System.out.println("\nUsuario atendido exitosamente.");
                 System.out.println("------------------------------------------------\n");
                 //break;
@@ -60,6 +66,9 @@ public class Metodos {
                 "\nID: " + o.getId() +
                 "\nA nombre del usuario: " + o.getNombre());
                 o.setEstado(2);
+                historial.add("Paciente atendido - ID: " + o.getId() +
+              ", Nombre: " + o.getNombre() +
+              ", Turno: " + o.getTurno());
                 System.out.println("\nUsuario atendido exitosamente.");
                 System.out.println("------------------------------------------------\n");
                 //break;
@@ -69,6 +78,8 @@ public class Metodos {
         
         System.out.println("No hay clientes pendientes por atender.");
         System.out.println("------------------------------------------------\n");
+
+        
         
         return cola;
     }
@@ -115,6 +126,10 @@ public class Metodos {
 
                 if (condicion >= 1 && condicion <= 5) {
                     o.setCondicionAt(condicion);
+                    historial.add("Asignación de atención preferencial - ID: " 
+                  + o.getId() + 
+                  ", Nombre: " + o.getNombre() + 
+                  ", Condición: " + Condiciones(condicion));
                     System.out.println("La atención del cliente ahora es preferencial.");
                 } else {
                     System.out.println("Opción no válida.");
@@ -134,7 +149,7 @@ public class Metodos {
         switch(opt){
             case 1: //Todos los pacientes
                 for (ObjClinica o : cola){
-                    o.setTurno(m.ValidarTurno());
+                    //o.setTurno(m.ValidarTurno());
                     System.out.println("Turno: " + o.getTurno());
                     System.out.println("Nombre: " + o.getNombre());
                     System.out.println("Edad: " + o.getEdad());
@@ -161,7 +176,7 @@ public class Metodos {
                 case 2: // PacientesCancelados
                     for(ObjClinica o : cola){
                         if(o.getEstado() == 3){
-                            o.setTurno(m.ValidarTurno());
+                            //o.setTurno(m.ValidarTurno());
                             System.out.println("Turno: " + o.getTurno());
                             System.out.println("Nombre: " + o.getNombre());
                             System.out.println("Edad: " + o.getEdad());
@@ -187,7 +202,7 @@ public class Metodos {
                     default: //Pacientes Atendidos
                         for(ObjClinica o : cola){
                             if(o.getEstado() == 2){
-                            o.setTurno(m.ValidarTurno());
+                            //o.setTurno(m.ValidarTurno());
                             System.out.println("Turno: " + o.getTurno());
                             System.out.println("Nombre: " + o.getNombre());
                             System.out.println("Edad: " + o.getEdad());
@@ -213,6 +228,7 @@ public class Metodos {
                     }
                     break;
         }
+        historial.add("Se mostraron los datos de los pacientes.");
         return "Datos mostrados correctamente";
         
     }
@@ -244,7 +260,11 @@ public class Metodos {
                     System.out.println("Edad: " + o.getEdad());
 
                     o.setEstado(3);
+                    historial.add("Turno cancelado - ID: " + o.getId() +
+                    ", Nombre: " + o.getNombre() +
+                    ", Turno: " + o.getTurno());
 
+                    historial.add("Se canceló el turno del paciente " + o.getNombre());             
                     System.out.println("\nEl turno " + o.getTurno() + " fue cancelado con éxito.");
                     System.out.println("-------------------------------------------------------");
                 }
@@ -260,34 +280,31 @@ public class Metodos {
 
     public void MostrarPendientes(Stack<ObjClinica> pila) {
 
-        Stack<ObjClinica> auxiliar = new Stack<>();
+    Stack<ObjClinica> auxiliar = new Stack<>();
 
-        while (!pila.isEmpty()) {
+    while (!pila.isEmpty()) {
 
         ObjClinica paciente = pila.pop();
-        
-        System.out.println("Turno: " + paciente.getTurno());
-        System.out.println("ID: " + paciente.getId());
-        System.out.println("Nombre: " + paciente.getNombre());
-        System.out.println("Edad: " + paciente.getEdad());
-        System.out.println("Servicio: " + paciente.getServicio());
-        if(paciente.getEstado() == 1){
-            System.out.println("Estado: Pendiente");
-        }else if(paciente.getEstado() == 2){
-            System.out.println("Estado: Atendido");
-        }else{
-            System.out.println("Estado: Cancelado.");
+
+        if (paciente.getEstado() == 1) {
+
+            System.out.println("Turno: " + paciente.getTurno());
+            System.out.println("ID: " + paciente.getId());
+            System.out.println("Nombre: " + paciente.getNombre());
+            System.out.println("Edad: " + paciente.getEdad());
+            System.out.println("Servicio: " + paciente.getServicio());
+
+            System.out.println("Condición especial: " + Condiciones(paciente.getCondicionAt()));
+            System.out.println("----------------------");
         }
-        System.out.println("Condición especial: " + Condiciones(paciente.getCondicionAt()));
-        System.out.println("----------------------");
 
         auxiliar.push(paciente);
     }
 
-        while (!auxiliar.isEmpty()) {
-            pila.push(auxiliar.pop());
-        }
+    while (!auxiliar.isEmpty()) {
+        pila.push(auxiliar.pop());
     }
+}
 
     public void MostrarPacientesPrioritarios(Queue<ObjClinica> cola) {
         System.out.println("=== Pacientes con atención preferencial ===");
@@ -301,6 +318,20 @@ public class Metodos {
             }
         }
 
+    }
+
+    public void MostrarHistorial() {
+
+        System.out.println("\n========== HISTORIAL DE OPERACIONES ==========");
+
+        if (historial.isEmpty()) {
+            System.out.println("No se han realizado operaciones.");
+        } else {
+            for (String operacion : historial) {
+                System.out.println(operacion);
+            }
+        }
+            System.out.println("==============================================\n");
     }
 
     private static String Condiciones(int opt) {
